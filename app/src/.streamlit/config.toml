@@ -12,9 +12,11 @@
 # can use our own
 showSidebarNavigation = false
 
-[theme]
+
 # Setting some basic config options related to the theme of the app
+[theme]
 base="light"
-primaryColor="#6550e6"
-font="monospace"
+primaryColor="#cc0000"
+secondaryBackgroundColor="#f2f2f2"
+textColor="#000000"
 

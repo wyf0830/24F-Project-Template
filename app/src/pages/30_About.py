@@ -8,11 +8,13 @@ st.write("# About this App")
 
 st.markdown (
     """
-    This is a demo app for CS 3200 Course Project.  
-
-    The goal of this demo is to provide information on the tech stack 
-    being used as well as demo some of the features of the various platforms. 
-
-    Stay tuned for more information and features to come!
+    Introducing Expeduco, a cutting-edge, data-driven platform designed
+      to revolutionize the co-op and internship experience at Northeastern University.
+        Expeduco streamlines the connection between students and employers by leveraging
+          advanced data analytics to provide personalized co-op recommendations, real-time 
+          application tracking, and insightful program performance metrics. In an era where
+            manual updates, system inefficiencies, and generic job listings hinder progress, 
+            Expeduco emerges as a solution that not only saves time but also enhances the 
+            quality of matches between students and employers.
     """
         )

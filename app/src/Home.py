@@ -34,9 +34,9 @@ SideBarLinks(show_home=True)
 
 # set the title of the page and provide a simple prompt. 
 logger.info("Loading the Home page of the app")
-st.title('CS 3200 Sample Semester Project App')
+st.title('Welcome to Expeduco!')
 st.write('\n\n')
-st.write('### HI! As which user would you like to log in?')
+st.write('### As which user would you like to log in?')
 
 # For each of the user personas for which we are implementing
 # functionality, we put a button on the screen that the user 
@@ -57,21 +57,37 @@ if st.button("Act as John, a Political Strategy Advisor",
     logger.info("Logging in as Political Strategy Advisor Persona")
     st.switch_page('pages/00_Pol_Strat_Home.py')
 
-if st.button('Act as Mohammad, an USAID worker', 
-            type = 'primary', 
-            use_container_width=True):
-    st.session_state['authenticated'] = True
-    st.session_state['role'] = 'usaid_worker'
-    st.session_state['first_name'] = 'Mohammad'
-    st.switch_page('pages/10_USAID_Worker_Home.py')
-
-if st.button('Act as System Administrator', 
+if st.button('Act as David Chen, System Administrator', 
             type = 'primary', 
             use_container_width=True):
     st.session_state['authenticated'] = True
     st.session_state['role'] = 'administrator'
     st.session_state['first_name'] = 'SysAdmin'
     st.switch_page('pages/20_Admin_Home.py')
+
+if st.button('Act as Steven Johnson, senior student at neu', 
+            type = 'primary', 
+            use_container_width=True):
+    st.session_state['authenticated'] = True
+    st.session_state['role'] = 'usaid_worker'
+    st.session_state['first_name'] = 'David'
+    st.switch_page('pages/10_USAID_Worker_Home.py')
+
+if st.button('Act as Michael Lee, khoury advisor', 
+             type='primary', 
+             use_container_width=True):
+    st.session_state['authenticated'] = True
+    st.session_state['role'] = 'warehouse_manager'
+    st.switch_page('pages/40_Warehouse_home.py')
+
+if st.button('Act as Hiroshi Saito, Co-op Program Director',
+             type = 'primary',
+             use_container_width=True):
+    st.session_state['authenticated'] = True
+    st.session_state['role'] = 'Program Director'
+    st.session_state['first_name'] = 'Hiroshi'
+    st.switch_page('')
+    
 
 
 
