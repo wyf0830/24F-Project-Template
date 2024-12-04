@@ -63,22 +63,23 @@ if st.button('Act as David Chen, System Administrator',
     st.session_state['authenticated'] = True
     st.session_state['role'] = 'administrator'
     st.session_state['first_name'] = 'SysAdmin'
-    st.switch_page('pages/20_Admin_Home.py')
+    st.switch_page('pages/10_Admin_Home.py')
 
 if st.button('Act as Steven Johnson, senior student at neu', 
             type = 'primary', 
             use_container_width=True):
     st.session_state['authenticated'] = True
-    st.session_state['role'] = 'usaid_worker'
+    st.session_state['role'] = 'Coop seeker'
     st.session_state['first_name'] = 'David'
-    st.switch_page('pages/10_USAID_Worker_Home.py')
+    st.switch_page('pages/20_Coop_Seeker_Home.py')
 
 if st.button('Act as Michael Lee, khoury advisor', 
              type='primary', 
              use_container_width=True):
     st.session_state['authenticated'] = True
-    st.session_state['role'] = 'warehouse_manager'
-    st.switch_page('pages/40_Warehouse_home.py')
+    st.session_state['role'] = 'Coop advisor'
+    st.session_state['first_name'] = 'Michael'
+    st.switch_page('pages/30_Coop_Advisor_Home.py')
 
 if st.button('Act as Hiroshi Saito, Co-op Program Director',
              type = 'primary',
@@ -86,7 +87,7 @@ if st.button('Act as Hiroshi Saito, Co-op Program Director',
     st.session_state['authenticated'] = True
     st.session_state['role'] = 'Program Director'
     st.session_state['first_name'] = 'Hiroshi'
-    st.switch_page('')
+    st.switch_page('pages/40_Coop_Pro_Dir_Home.py')
     
 
 
