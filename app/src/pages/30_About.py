@@ -18,3 +18,6 @@ st.markdown (
             quality of matches between students and employers.
     """
         )
+
+if st.button('Back to home page', type='primary', use_container_width=True):
+  st.switch_page('Home.py')
