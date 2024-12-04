@@ -5,9 +5,10 @@ st.set_page_config(layout='wide')
 
 SideBarLinks()
 
-st.title("Warehouse Manager Portal")
+st.title("khoury advisor portal")
 
-st.subheader("Reports")
+st.subheader("Recent trends on available jobs")
+# TODO change below
 col1, col2 = st.columns(2)
 with col1:
     if st.button("Show All Reorders", type='primary', use_container_width=True):
@@ -16,7 +17,8 @@ with col2:
     if st.button("Show Low Stock", type='primary', use_container_width=True):
         st.switch_page("pages/42_Low_Stock.py")
 
-st.subheader("New Products and Categories")
+st.subheader("New job offers")
+# TODO change below
 col3, col4 = st.columns(2)
 with col3:
     if st.button("Add New Product Category", type='primary', use_container_width=True):
