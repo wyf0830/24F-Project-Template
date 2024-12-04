@@ -69,28 +69,18 @@ if st.button('Act as Steven Johnson, senior student at neu',
             type = 'primary', 
             use_container_width=True):
     st.session_state['authenticated'] = True
-<<<<<<< HEAD
     st.session_state['role'] = 'student'
     st.session_state['first_name'] = 'Steven'
     st.switch_page('pages/10_NEU_student_Home.py')
-=======
-    st.session_state['role'] = 'Coop seeker'
-    st.session_state['first_name'] = 'David'
-    st.switch_page('pages/20_Coop_Seeker_Home.py')
->>>>>>> b35c005cddb8f319a9b32a8930edbabc22a43930
+
 
 if st.button('Act as Michael Lee, khoury advisor', 
              type='primary', 
              use_container_width=True):
     st.session_state['authenticated'] = True
-<<<<<<< HEAD
     st.session_state['role'] = 'khoury advisor'
-    st.switch_page('pages/40_Khoury_Advisor_Portal.py')
-=======
-    st.session_state['role'] = 'Coop advisor'
     st.session_state['first_name'] = 'Michael'
     st.switch_page('pages/30_Coop_Advisor_Home.py')
->>>>>>> b35c005cddb8f319a9b32a8930edbabc22a43930
 
 if st.button('Act as Hiroshi Saito, Co-op Program Director',
              type = 'primary',
