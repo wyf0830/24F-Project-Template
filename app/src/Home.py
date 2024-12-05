@@ -73,7 +73,6 @@ if st.button('Act as Steven Johnson, senior student at neu',
     st.session_state['first_name'] = 'Steven'
     st.switch_page('pages/10_NEU_student_Home.py')
 
-
 if st.button('Act as Michael Lee, khoury advisor', 
              type='primary', 
              use_container_width=True):
