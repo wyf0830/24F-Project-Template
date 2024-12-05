@@ -24,7 +24,7 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     if st.button('Update Employer Information', type='primary', use_container_width=True):
-        st.switch_page('00_Update_Employer')
+        st.switch_page('pages/00_Update_Employer.py')
 
 with col2:
     if st.button('View Automated Alerts', type='primary', use_container_width=True):
