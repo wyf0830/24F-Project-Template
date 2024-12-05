@@ -19,7 +19,7 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     if st.button('View Data Dashboard', type='primary', use_container_width=True):
-        st.switch_page('pages/40_Data_Dashboard')
+        st.switch_page('pages/40_Data_Dashboard.py')
 
 with col2:
     if st.button('Real-Time Metrics Tracking', type='primary', use_container_width=True):
