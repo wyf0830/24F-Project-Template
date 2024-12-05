@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-API_URL = "http://localhost:5000/employers"
+API_URL = "http://localhost:4000/employers"
 
 st.title("Update Employer Information")
 
@@ -9,24 +9,22 @@ st.title("Update Employer Information")
 st.subheader("Employer List")
 try:
     response = requests.get(API_URL)
-    employers = response.json()
-    st.write(employers)
+    if response.status_code == 200:
+        employers = response.json()
+        st.dataframe(employers)
+    else:
+        st.error("Failed to fetch employers.")
 except Exception as e:
-    st.error(f"Failed to fetch employers: {e}")
+    st.error(f"Error: {e}")
 
 # Add Employer
 st.subheader("Add Employer")
 name = st.text_input("Name")
 contact_info = st.text_input("Contact Info")
 industry = st.text_input("Industry")
-profile_status = st.selectbox("Profile Status", [1, 0])  # 1 for active, 0 for inactive
+profile_status = st.selectbox("Profile Status", [1, 0])
 if st.button("Add Employer"):
-    payload = {
-        "name": name,
-        "contact_info": contact_info,
-        "industry": industry,
-        "profile_status": profile_status
-    }
+    payload = {"name": name, "contact_info": contact_info, "industry": industry, "profile_status": profile_status}
     try:
         response = requests.post(API_URL, json=payload)
         if response.status_code == 201:
@@ -44,12 +42,7 @@ contact_info = st.text_input("Updated Contact Info")
 industry = st.text_input("Updated Industry")
 profile_status = st.selectbox("Updated Profile Status", [1, 0])
 if st.button("Update Employer"):
-    payload = {
-        "name": name,
-        "contact_info": contact_info,
-        "industry": industry,
-        "profile_status": profile_status
-    }
+    payload = {"name": name, "contact_info": contact_info, "industry": industry, "profile_status": profile_status}
     try:
         response = requests.put(f"{API_URL}/{employer_id}", json=payload)
         if response.status_code == 200:
