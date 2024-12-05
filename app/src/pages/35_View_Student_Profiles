@@ -1,20 +1,35 @@
 import streamlit as st
+import sqlite3
 
 st.set_page_config(page_title="View Student Profiles", layout="wide")
 
 st.title("View Student Profiles")
 st.write("Access detailed profiles of students to assist in career guidance.")
 
-# Example student data
-students = [
-    {"name": "Alice Johnson", "skills": "Python, Data Analysis", "goals": "Data Scientist"},
-    {"name": "Bob Smith", "skills": "Java, Cloud Computing", "goals": "Backend Developer"}
-]
 
-# Display student profiles
-for student in students:
-    st.subheader(student["name"])
-    st.write(f"Skills: {student['skills']}")
-    st.write(f"Career Goals: {student['goals']}")
-    st.write("---")
+DATABASE_PATH = "app/database.db"  
+
+def get_students():
+   
+    conn = sqlite3.connect(DATABASE_PATH)
+    cursor = conn.cursor()
+    query = "SELECT Name, Major, Interests, Profile_Status FROM Student WHERE Profile_Status = 1"
+    cursor.execute(query)
+    students = cursor.fetchall()
+    conn.close()
+    return students
+
+students = get_students()
+
+if students:
+    for student in students:
+        st.subheader(student[0])  # Name
+        st.write(f"**Major:** {student[1]}")  # Major
+        st.write(f"**Interests:** {student[2]}")  # Interests
+        st.write("---")
+else:
+    st.write("No student profiles available.")
+
+
+
     
