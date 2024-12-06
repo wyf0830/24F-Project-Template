@@ -11,10 +11,12 @@ def get_employers():
         cursor = db.get_db().cursor()
         cursor.execute("SELECT * FROM Employer")
         employers = cursor.fetchall()
+        if not employers:
+            return make_response(jsonify([]), 200)  # Return an empty list if no employers are found
         return make_response(jsonify(employers), 200)
     except Exception as e:
         current_app.logger.error(f"Error fetching employers: {e}")
-        return make_response(jsonify({"error": "Failed to fetch employers"}), 500)
+        return make_response(jsonify({"error": f"Failed to fetch employers: {e}"}), 500)
 
 # Get employer by ID
 @employers.route('/employers/<int:employer_id>', methods=['GET'])
@@ -50,11 +52,11 @@ def add_employer():
 def update_employer(employer_id):
     try:
         data = request.json
-        query = """
-        UPDATE Employer
-        SET Name = %s, Contact_Info = %s, Industry = %s, Profile_Status = %s
-        WHERE Employer_ID = %s
-        """
+        query = (
+            "UPDATE Employer "
+            "SET Name = %s, Contact_Info = %s, Industry = %s, Profile_Status = %s "
+            "WHERE Employer_ID = %s"
+        )
         cursor = db.get_db().cursor()
         cursor.execute(query, (data['name'], data['contact_info'], data['industry'], data['profile_status'], employer_id))
         db.get_db().commit()
