@@ -27,8 +27,8 @@ with col1:
         st.switch_page('pages/00_Update_Employer.py')
 
 with col2:
-    if st.button('View Automated Alerts', type='primary', use_container_width=True):
-        st.switch_page('pages/12_API_Test.py')
+    if st.button('Delete Employer Information', type='primary', use_container_width=True):
+        st.switch_page('pages/00_Remove_Employer.py')
 
 with col3:
     if st.button('Data Cleanup', type='primary', use_container_width=True):
