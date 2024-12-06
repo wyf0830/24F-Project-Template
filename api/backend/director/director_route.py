@@ -18,27 +18,25 @@ director = Blueprint('director', __name__)
 def get_data_dashboard():
 
     query = '''
-    SELECT pd.director_id AS Director_ID, 
-        pd.name AS Director_Name, 
-        pd.contact_info AS Director_Contact,
-        ra.Allocation_ID AS Resource_Allocation_ID, 
-        ra.Resource_Type AS Resource_Type,
-        s.Student_ID, s.Name AS Student_Name, 
-        s.Major AS Student_Major, 
-        s.Program AS Student_Program,
-        ef.Details AS Employer_Feedback,
-        pm.Metrics_Name AS Metrics_Name
-    FROM Program_Director pd
-        LEFT JOIN Program_Metrics pm ON pd.Director_ID = pm.Director_ID
-        LEFT JOIN Employer_Feedback ef ON pm.Metrics_ID = ef.Metrics_ID
-        LEFT JOIN Student s ON pm.Metrics_ID = s.Student_ID
-        LEFT JOIN Resource_Allocation ra ON pd.Director_ID = ra.Director_ID
+        SELECT pd.director_id AS Director_ID, 
+            pd.name AS Director_Name, 
+            pd.contact_info AS Director_Contact,
+            ra.Allocation_ID AS Resource_Allocation_ID, 
+            ra.Resource_Type AS Resource_Type,
+            s.Student_ID, s.Name AS Student_Name, 
+            s.Major AS Student_Major, 
+            s.Program AS Student_Program,
+            ef.Details AS Employer_Feedback,
+            pm.Metrics_Name AS Metrics_Name
+        FROM Program_Director pd
+            LEFT JOIN Program_Metrics pm ON pd.Director_ID = pm.Director_ID
+            LEFT JOIN Employer_Feedback ef ON pm.Metrics_ID = ef.Metrics_ID
+            LEFT JOIN Student s ON pm.Metrics_ID = s.Student_ID
+            LEFT JOIN Resource_Allocation ra ON pd.Director_ID = ra.Director_ID
     '''
     
     cursor = db.get_db().cursor()
-
     cursor.execute(query)
-
     theData = cursor.fetchall()
 
     response = make_response(jsonify(theData))
@@ -103,10 +101,73 @@ def update_data_dashboard(director_id):
 
     except Exception as e:
         return make_response(jsonify({'error': str(e)}), 500)
-    
-    #query = '''
-    #SELECT pr.Report_ID AS Report_ID, 
-        #pr.Summary AS Performance_Summary, 
-        #pr.Date AS Performance_Report_Date,
 
-    #'''
+
+@director.route('/reports', methods=['GET', 'POST'])
+def handle_performance_reports():
+    if request.method == 'GET':
+        # SQL query to fetch performance reports
+        query = '''
+            SELECT pd.director_id AS Director_ID, 
+                pd.name AS Director_Name, 
+                pd.contact_info AS Director_Contact,
+                pr.Report_ID AS Report_ID, 
+                pr.Summary AS Performance_Summary, 
+                pr.Date AS Performance_Report_Date
+            FROM Performance_Report pr
+                LEFT JOIN Program_Director pd ON pd.Director_ID = pr.Director_ID
+        '''
+        cursor = db.get_db().cursor()
+        cursor.execute(query)
+        theData = cursor.fetchall()
+
+        response = make_response(jsonify(theData))
+        response.status_code = 200
+        return response
+
+    elif request.method == 'POST':
+        try:
+            # Extract JSON payload
+            data = request.get_json()
+            director_id = data.get('Director_ID')
+            summary = data.get('Summary')
+            date = data.get('Date')
+
+            # Validate input
+            if not director_id or not summary or not date:
+                return make_response(jsonify({'error': 'Missing required fields: Director_ID, Summary, or Date'}), 400)
+
+            # Insert into database
+            query = '''
+                INSERT INTO Performance_Report (Director_ID, Summary, Date)
+                VALUES (%s, %s, %s)
+            '''
+            cursor = db.get_db().cursor()
+            cursor.execute(query, (director_id, summary, date))
+            db.get_db().commit()
+
+            return make_response(jsonify({'message': 'Performance report created successfully!'}), 201)
+
+        except Exception as e:
+            return make_response(jsonify({'error': str(e)}), 500)
+
+
+@director.route('/reports/<int:report_id>', methods=['DELETE'])
+def delete_performance_report(report_id):
+    try:
+        # SQL query to delete a performance report by Report_ID
+        query = '''
+            DELETE FROM Performance_Report
+            WHERE Report_ID = %s
+        '''
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (report_id,))
+        db.get_db().commit()
+
+        if cursor.rowcount == 0:
+            return make_response(jsonify({'error': 'Report not found'}), 404)
+
+        return make_response(jsonify({'message': 'Performance report deleted successfully!'}), 200)
+
+    except Exception as e:
+        return make_response(jsonify({'error': str(e)}), 500)

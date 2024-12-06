@@ -15,32 +15,11 @@ st.write('')
 st.write('### What would you like to do today?')
 
 # Navigation buttons
-col1, col2, col3 = st.columns(3)
+if st.button('View Data Dashboard', type='primary', use_container_width=True):
+    st.switch_page('pages/41_Data_Dashboard.py')
 
-with col1:
-    if st.button('View Data Dashboard', type='primary', use_container_width=True):
-        st.switch_page('pages/40_Data_Dashboard.py')
+if st.button('Program Impact Reports', type='primary', use_container_width=True):
+    st.switch_page('pages/42_Program_Impact_Reports.py')
 
-with col2:
-    if st.button('Real-Time Metrics Tracking', type='primary', use_container_width=True):
-        st.switch_page('pages/41_RealTime_Metrics')
-
-with col3:
-    if st.button('Resource Allocation Insights', type='primary', use_container_width=True):
-        st.switch_page('pages/42_Resource_Allocation')
-
-st.write('')
-st.write('')
-col4, col5, col6 = st.columns(3)
-
-with col1:
-    if st.button('Trends and Patterns Analysis', type='primary', use_container_width=True):
-        st.switch_page('pages/43_Trends_Analysis')
-
-with col2:
-    if st.button('Program Impact Reports', type='primary', use_container_width=True):
-        st.switch_page('pages/44_Program_Impact_Reports')
-
-with col3:
-    if st.button('Employer Partnership Analysis', type='primary', use_container_width=True):
-        st.switch_page('pages/45_Employer_Partnership_Analysis')
+if st.button('Employer Partnership Analysis', type='primary', use_container_width=True):
+    st.switch_page('pages/43_Employer_Partnership_Analysis.py')
