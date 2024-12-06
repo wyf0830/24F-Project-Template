@@ -8,7 +8,7 @@ SideBarLinks()
 # Define API URL for Program Impact Reports
 API_URL = 'http://api:4000/d/reports'
 
-st.title("Program Impact Reports")
+st.title("Program Performance Reports")
 
 # Section: View Existing Performance Reports
 st.subheader("Performance Reports Data")
@@ -43,7 +43,7 @@ except requests.exceptions.RequestException as e:
 # Section: Generate a New Impact Report
 st.write('')
 st.write('')
-st.subheader("Generate a New Impact Report")
+st.subheader("Generate a New Performance Report")
 
 # Input fields for creating a new report
 director_id = st.number_input("Director ID", min_value=1, step=1, help="Enter the ID of the director.")

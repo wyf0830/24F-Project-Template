@@ -33,6 +33,7 @@ def get_data_dashboard():
             LEFT JOIN Employer_Feedback ef ON pm.Metrics_ID = ef.Metrics_ID
             LEFT JOIN Student s ON pm.Metrics_ID = s.Student_ID
             LEFT JOIN Resource_Allocation ra ON pd.Director_ID = ra.Director_ID
+        ORDER BY pd.director_id
     '''
     
     cursor = db.get_db().cursor()
@@ -116,6 +117,7 @@ def handle_performance_reports():
                 pr.Date AS Performance_Report_Date
             FROM Performance_Report pr
                 LEFT JOIN Program_Director pd ON pd.Director_ID = pr.Director_ID
+            ORDER BY pd.director_id
         '''
         cursor = db.get_db().cursor()
         cursor.execute(query)

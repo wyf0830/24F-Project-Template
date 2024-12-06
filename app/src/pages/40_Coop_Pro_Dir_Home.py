@@ -19,7 +19,7 @@ if st.button('View Data Dashboard', type='primary', use_container_width=True):
     st.switch_page('pages/41_Data_Dashboard.py')
 
 if st.button('Program Impact Reports', type='primary', use_container_width=True):
-    st.switch_page('pages/42_Program_Impact_Reports.py')
+    st.switch_page('pages/42_Program_Performance_Reports.py')
 
 if st.button('Employer Partnership Analysis', type='primary', use_container_width=True):
     st.switch_page('pages/43_Employer_Partnership_Analysis.py')
