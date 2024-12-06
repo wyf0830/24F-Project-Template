@@ -1,25 +1,36 @@
 import logging
-logger = logging.getLogger(__name__)
 import streamlit as st
 import requests
-from streamlit_extras.app_logo import add_logo
 from modules.nav import SideBarLinks
 
 SideBarLinks()
 
-st.write("# Accessing a REST API from Within Streamlit")
+st.title("Job Listings")
 
-"""
-Simply retrieving data from a REST api running in a separate Docker Container.
+st.write("### Accessing Job Listings from an API")
 
-If the container isn't running, this will be very unhappy.  But the Streamlit app 
-should not totally die. 
-"""
-data = {} 
 try:
-  data = requests.get('http://api:4000/p/products').json()
-except:
-  st.write("**Important**: Could not connect to sample api, so using dummy data.")
-  data = {"a":{"b": "123", "c": "hello"}, "z": {"b": "456", "c": "goodbye"}}
+    # Fetch job listings
+    response = requests.get('http://api:4000/job/listings')
+    response.raise_for_status()
+    jobs = response.json()
 
-st.dataframe(data)
+    # Allow filtering jobs by location and job type
+    col1, col2 = st.columns(2)
+    with col1:
+        location = st.selectbox("Filter by Location", options=["All"] + list({job['location'] for job in jobs}))
+    with col2:
+        job_type = st.selectbox("Filter by Job Type", options=["All"] + list({job['type'] for job in jobs}))
+
+    # Apply filters
+    if location != "All":
+        jobs = [job for job in jobs if job['location'] == location]
+    if job_type != "All":
+        jobs = [job for job in jobs if job['type'] == job_type]
+
+    # Display filtered jobs
+    st.write(f"Showing {len(jobs)} job(s):")
+    st.table(jobs)
+except Exception as e:
+    st.error(f"Error retrieving job listings: {e}")
+
