@@ -30,7 +30,14 @@ director = Blueprint('director', __name__)
 def get_data_dashboard():
 
     query = '''
-        SELECT * FROM Coop_Application
+        SELECT *
+        FROM Program_Director pd
+        LEFT JOIN Program_Metrics pm ON pd.Director_ID = pm.Director_ID
+        LEFT JOIN Student s ON pm.Metrics_ID = s.Student_ID
+        LEFT JOIN Resource_Allocation ra ON pd.Director_ID = ra.Director_ID
+        LEFT JOIN Job_Position jp ON ra.Allocation_ID = jp.Position_ID
+        LEFT JOIN Employer e ON jp.Employer_ID = e.Employer_ID
+        LEFT JOIN Performance_Report pr ON pd.Director_ID = pr.Director_ID
         '''
     
     cursor = db.get_db().cursor()
