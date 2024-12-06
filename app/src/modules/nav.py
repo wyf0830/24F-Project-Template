@@ -55,6 +55,22 @@ def AdminPageNav():
         "pages/21_ML_Model_Mgmt.py", label="ML Model Management", icon="🏢"
     )
 
+### ------------------------ Program Director Role ------------------------
+def DirectorHomeNav():
+    st.sidebar.page_link(
+        "pages/40_Coop_Pro_Dir_Home.py", label="Program Director Home", icon="👤"
+    )
+
+def DataDashboardNav():
+    st.sidebar.page_link(
+        "pages/41_Data_Dashboard.py", label="Data Dashboard", icon="📊"
+    )
+
+def PerformanceNav():
+    st.sidebar.page_link("pages/42_Program_Performance_Reports.py", label="Program Performance Report", icon="🏆")
+
+def EmpAnalysisNav():
+    st.sidebar.page_link("pages/43_Employer_Partnership_Analysis.py", label="Employer Partnership Analysis", icon="💼")
 
 # --------------------------------Links Function -----------------------------------------------
 def SideBarLinks(show_home=False):
@@ -92,6 +108,13 @@ def SideBarLinks(show_home=False):
         # If the user is an administrator, give them access to the administrator pages
         if st.session_state["role"] == "administrator":
             AdminPageNav()
+        
+        # If the user role is usaid worker, show the Api Testing page
+        if st.session_state['role'] == 'Program Director':
+            DirectorHomeNav()
+            DataDashboardNav()
+            PerformanceNav()
+            EmpAnalysisNav()
 
     # Always show the About page at the bottom of the list of links
     AboutPageNav()
