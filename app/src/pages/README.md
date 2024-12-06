@@ -27,6 +27,6 @@ The mapping relationship between page keys and database operations should be cle
 2. Security:
 Database operations should have basic privilege control to prevent unauthorized users from accessing or modifying data.
 The use of parameterized queries to prevent SQL injection and other security risks.
-Interactivity:
+
 
 
