@@ -48,3 +48,48 @@ def get_data_dashboard():
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
+
+@director.route('/dashboard/<int:director_id>', methods=['PUT'])
+def update_data_dashboard(director_id):
+    try:
+        # Extract JSON payload from the request
+        data = request.get_json()
+
+        # Validate incoming data
+        required_fields = ['Director_Name', 'Director_Contact']
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            return make_response(
+                jsonify({'error': f'Missing fields: {", ".join(missing_fields)}'}), 400
+            )
+        
+        # Prepare SQL update query
+        update_query = '''
+            UPDATE Program_Director
+            SET name = %s,
+                contact_info = %s
+            WHERE director_id = %s
+        '''
+        update_values = (data['Director_Name'], data['Director_Contact'], director_id)
+
+        # Execute the update query
+        cursor = db.get_db().cursor()
+        cursor.execute(update_query, update_values)
+        db.get_db().commit()
+
+        # Check if any row was updated
+        if cursor.rowcount == 0:
+            return make_response(
+                jsonify({'message': 'Director not found or no changes made'}), 404
+            )
+
+        # Return success response
+        return make_response(
+            jsonify({'message': 'Director data updated successfully'}), 200
+        )
+    
+    except Exception as e:
+        # Handle unexpected errors
+        return make_response(
+            jsonify({'error': str(e)}), 500
+        )

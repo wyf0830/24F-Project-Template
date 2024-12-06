@@ -46,34 +46,33 @@ try:
 except requests.exceptions.RequestException as e:
     st.error(f"Error fetching data: {e}")
 
-# Add Employer
-st.subheader("Add Information")
-name = st.text_input("Name")
-contact_info = st.text_input("Contact Info")
-industry = st.text_input("Industry")
-profile_status = st.selectbox("Profile Status", options=[1, 0], format_func=lambda x: 'Active' if x == 1 else 'Inactive')
+# Update Director Data
+st.subheader("Update Director Information")
+director_id = st.number_input("Director ID", min_value=1, step=1)
+updated_name = st.text_input("Updated Name")
+updated_contact_info = st.text_input("Updated Contact Info")
 
-if st.button("Add Employer"):
-    if not name or not contact_info:
-        st.error("Please provide both Name and Contact Info.")
+if st.button("Update Director"):
+    if not updated_name or not updated_contact_info:
+        st.error("Please provide both Updated Name and Updated Contact Info.")
     else:
-        payload = {
-            "name": name,
-            "contact_info": contact_info,
-            "industry": industry,
-            "profile_status": profile_status
+        update_payload = {
+            "Director_Name": updated_name,
+            "Director_Contact": updated_contact_info
         }
         try:
-            post_response = requests.post(API_URL, json=payload)
-            if post_response.status_code == 201:
-                st.success("Employer added successfully!")
+            # Send PUT request to update director data
+            update_response = requests.put(f"{API_URL}/{director_id}", json=update_payload)
+            if update_response.status_code == 200:
+                st.success("Director updated successfully!")
+            elif update_response.status_code == 404:
+                st.error("Director not found.")
             else:
-                # Attempt to extract error message from response
                 try:
-                    error_info = post_response.json()
+                    error_info = update_response.json()
                     error_message = error_info.get('error', 'Unknown error.')
                 except ValueError:
-                    error_message = post_response.text
-                st.error(f"Failed to add employer. Status Code: {post_response.status_code}\nResponse: {error_message}")
+                    error_message = update_response.text
+                st.error(f"Failed to update director. Status Code: {update_response.status_code}\nResponse: {error_message}")
         except Exception as e:
             st.error(f"Error: {e}")
