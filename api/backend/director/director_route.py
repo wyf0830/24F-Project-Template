@@ -173,3 +173,35 @@ def delete_performance_report(report_id):
 
     except Exception as e:
         return make_response(jsonify({'error': str(e)}), 500)
+    
+
+@director.route('/employer', methods=['GET'])
+def get_employer_data():
+
+    query = '''
+        SELECT pd.director_id AS Director_ID, 
+            pd.name AS Director_Name, 
+            pd.contact_info AS Director_Contact,
+            s.Student_ID, s.Name AS Student_Name, 
+            s.Major AS Student_Major, 
+            s.Program AS Student_Program,
+            ef.Details AS Employer_Feedback,
+            jp.Title AS Job_Title,
+            e.Name AS Employer_Name,
+            e.Contact_Info AS Employer_Contact,
+            e.Industry AS Industry
+        FROM Program_Director pd
+            LEFT JOIN Program_Metrics pm ON pd.Director_ID = pm.Director_ID
+            LEFT JOIN Employer_Feedback ef ON pm.Metrics_ID = ef.Metrics_ID
+            LEFT JOIN Student s ON pm.Metrics_ID = s.Student_ID
+            LEFT JOIN Job_Position jp on jp.Position_ID = ef.Position_ID
+            LEFT JOIN Employer e ON e.Employer_ID = jp.Employer_ID
+        ORDER BY pd.director_id
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+
+    response = make_response(jsonify(theData))
+    response.status_code = 200
+    return response
