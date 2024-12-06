@@ -51,23 +51,35 @@ st.subheader("Update Director Information")
 director_id = st.number_input("Director ID", min_value=1, step=1)
 updated_name = st.text_input("Updated Name")
 updated_contact_info = st.text_input("Updated Contact Info")
+updated_resource_type = st.text_input("Updated Resource Type")
+updated_performance_date = st.date_input("Updated Performance Report Date")
+updated_performance_summary = st.text_area("Updated Performance Summary")
+updated_metrics_name = st.text_input("Updated Metrics Name")
 
 if st.button("Update Director"):
     if not updated_name or not updated_contact_info:
         st.error("Please provide both Updated Name and Updated Contact Info.")
     else:
+        # Build the payload for the PUT request
         update_payload = {
             "Director_Name": updated_name,
-            "Director_Contact": updated_contact_info
+            "Director_Contact": updated_contact_info,
+            "Resource_Type": updated_resource_type,
+            "Performance_Report_Date": updated_performance_date.isoformat() if updated_performance_date else None,
+            "Performance_Summary": updated_performance_summary,
+            "Metrics_Name": updated_metrics_name
         }
+
         try:
             # Send PUT request to update director data
             update_response = requests.put(f"{API_URL}/{director_id}", json=update_payload)
+
             if update_response.status_code == 200:
                 st.success("Director updated successfully!")
             elif update_response.status_code == 404:
                 st.error("Director not found.")
             else:
+                # Attempt to extract error message from response
                 try:
                     error_info = update_response.json()
                     error_message = error_info.get('error', 'Unknown error.')
