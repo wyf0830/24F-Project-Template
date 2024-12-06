@@ -23,9 +23,6 @@ def get_data_dashboard():
         pd.contact_info AS Director_Contact,
         ra.Allocation_ID AS Resource_Allocation_ID, 
         ra.Resource_Type AS Resource_Type,
-        pr.Report_ID AS Report_ID, 
-        pr.Summary AS Performance_Summary, 
-        pr.Date AS Performance_Report_Date,
         s.Student_ID, s.Name AS Student_Name, 
         s.Major AS Student_Major, 
         s.Program AS Student_Program,
@@ -36,7 +33,6 @@ def get_data_dashboard():
         LEFT JOIN Employer_Feedback ef ON pm.Metrics_ID = ef.Metrics_ID
         LEFT JOIN Student s ON pm.Metrics_ID = s.Student_ID
         LEFT JOIN Resource_Allocation ra ON pd.Director_ID = ra.Director_ID
-        LEFT JOIN Performance_Report pr ON pd.Director_ID = pr.Director_ID
     '''
     
     cursor = db.get_db().cursor()
@@ -55,41 +51,62 @@ def update_data_dashboard(director_id):
         # Extract JSON payload from the request
         data = request.get_json()
 
-        # Validate incoming data
-        required_fields = ['Director_Name', 'Director_Contact']
-        missing_fields = [field for field in required_fields if field not in data]
-        if missing_fields:
-            return make_response(
-                jsonify({'error': f'Missing fields: {", ".join(missing_fields)}'}), 400
-            )
-        
-        # Prepare SQL update query
-        update_query = '''
+        # Validate the required fields
+        if not data.get('Director_Name') or not data.get('Director_Contact'):
+            return make_response(jsonify({'error': 'Missing Director Name or Contact Info'}), 400)
+
+        # Start the database transaction
+        conn = db.get_db()
+        cursor = conn.cursor()
+
+        # Update Program_Director table
+        update_query_director = '''
             UPDATE Program_Director
             SET name = %s,
                 contact_info = %s
             WHERE director_id = %s
         '''
-        update_values = (data['Director_Name'], data['Director_Contact'], director_id)
+        cursor.execute(update_query_director, (data['Director_Name'], data['Director_Contact'], director_id))
 
-        # Execute the update query
-        cursor = db.get_db().cursor()
-        cursor.execute(update_query, update_values)
-        db.get_db().commit()
+        # Update Resource_Allocation table using derived table
+        if data.get('Resource_Type'):
+            update_query_resource = '''
+                UPDATE Resource_Allocation ra
+                JOIN (
+                    SELECT Allocation_ID
+                    FROM Resource_Allocation
+                    WHERE Director_ID = %s
+                    LIMIT 1
+                ) AS temp ON ra.Allocation_ID = temp.Allocation_ID
+                SET ra.Resource_Type = %s
+            '''
+            cursor.execute(update_query_resource, (director_id, data['Resource_Type']))
 
-        # Check if any row was updated
-        if cursor.rowcount == 0:
-            return make_response(
-                jsonify({'message': 'Director not found or no changes made'}), 404
-            )
+        # Update Program_Metrics table using derived table
+        if data.get('Metrics_Name'):
+            update_query_metrics = '''
+                UPDATE Program_Metrics pm
+                JOIN (
+                    SELECT Metrics_ID
+                    FROM Program_Metrics
+                    WHERE Director_ID = %s
+                    LIMIT 1
+                ) AS temp ON pm.Metrics_ID = temp.Metrics_ID
+                SET pm.Metrics_Name = %s
+            '''
+            cursor.execute(update_query_metrics, (director_id, data['Metrics_Name']))
 
-        # Return success response
-        return make_response(
-            jsonify({'message': 'Director data updated successfully'}), 200
-        )
-    
+        # Commit the changes
+        conn.commit()
+
+        return make_response(jsonify({'message': 'Director updated successfully!'}), 200)
+
     except Exception as e:
-        # Handle unexpected errors
-        return make_response(
-            jsonify({'error': str(e)}), 500
-        )
+        return make_response(jsonify({'error': str(e)}), 500)
+    
+    #query = '''
+    #SELECT pr.Report_ID AS Report_ID, 
+        #pr.Summary AS Performance_Summary, 
+        #pr.Date AS Performance_Report_Date,
+
+    #'''

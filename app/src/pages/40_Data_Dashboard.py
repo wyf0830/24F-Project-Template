@@ -27,8 +27,7 @@ try:
     # Define desired column order
     desired_order = [
         'Director_ID', 'Director_Name', 'Director_Contact', 
-        'Resource_Allocation_ID', 'Resource_Type', 'Performance_Report_Date', 
-        'Performance_Summary', 'Metrics_Name', 'Student_ID', 
+        'Resource_Allocation_ID', 'Resource_Type', 'Metrics_Name', 'Student_ID', 
         'Student_Name', 'Student_Major', 'Student_Program', 'Employer_Feedback'
     ]
 
@@ -94,8 +93,6 @@ director_id = st.number_input("Director ID", min_value=1, step=1)
 updated_name = st.text_input("Updated Name")
 updated_contact_info = st.text_input("Updated Contact Info")
 updated_resource_type = st.text_input("Updated Resource Type")
-updated_performance_date = st.date_input("Updated Performance Report Date")
-updated_performance_summary = st.text_area("Updated Performance Summary")
 updated_metrics_name = st.text_input("Updated Metrics Name")
 
 if st.button("Update Director"):
@@ -107,8 +104,6 @@ if st.button("Update Director"):
             "Director_Name": updated_name,
             "Director_Contact": updated_contact_info,
             "Resource_Type": updated_resource_type,
-            "Performance_Report_Date": updated_performance_date.isoformat() if updated_performance_date else None,
-            "Performance_Summary": updated_performance_summary,
             "Metrics_Name": updated_metrics_name
         }
 
