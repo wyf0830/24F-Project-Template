@@ -64,3 +64,42 @@ def add_new_student():
     
         response = make_response(jsonify({'message': 'Successfully added student.', 'Student_ID': new_student_id}), 201)
         return response
+
+
+# Endpoint to fetch job listings
+@students.route('/job_listings', methods=['GET'])
+def get_job_listings():
+    query = '''
+        SELECT * FROM Job_Position
+'''
+    # get a cursor object from the database
+    cursor = db.get_db().cursor()
+
+    # use cursor to query the database for a list of products
+    cursor.execute(query)
+
+    # fetch all the data from the cursor
+    # The cursor will return the data as a 
+    # Python Dictionary
+    theData = cursor.fetchall()
+
+    # Create a HTTP Response object and add results of the query to it
+    # after "jasonify"-ing it.
+    response = make_response(jsonify(theData))
+    # set the proper HTTP Status code of 200 (meaning all good)
+    response.status_code = 200
+    # send the response back to the client
+    return response
+
+# Endpoint to predict job satisfaction
+@students.route('/job_prediction/<int:experience>/<int:salary>', methods=['GET'])
+def predict_job_satisfaction(experience, salary):
+    # Simple satisfaction formula for demonstration purposes
+    satisfaction_score = max(0, min(10, (experience * 2 + salary / 20000) / 2))
+    response = {
+        "experience": experience,
+        "salary": salary,
+        "satisfaction_score": satisfaction_score,
+        "interpretation": "Highly satisfied" if satisfaction_score >= 7 else "Moderately satisfied" if satisfaction_score >= 4 else "Not satisfied"
+    }
+    return jsonify(response), 200
