@@ -1,25 +1,70 @@
 import streamlit as st
+import pandas as pd
 import requests
+from modules.nav import SideBarLinks
 
-# Update API_URL based on your deployment
-# If running locally without Docker, use 'http://localhost:4000/a/employers'
-# If using Docker and 'api' resolves correctly, keep as 'http://api:4000/a/employers'
+# Initialize the navigation links
+SideBarLinks()
+
+# Define API URL for employers data
 API_URL = 'http://api:4000/a/employers'
 
 st.title("Update Employer Information")
 
-# View Employers
+# Fetch and Display Employers Data
 st.subheader("Employer List")
 
 try:
+    # Fetch data from the API
     response = requests.get(API_URL)
-    response.raise_for_status()  # Raises HTTPError for bad responses (4xx or 5xx)
-    employers = response.json()
-    st.dataframe(employers)
+    response.raise_for_status()  # Raise an error for bad responses
+    employer_data = response.json()
+
+    # Convert JSON response to Pandas DataFrame
+    employer_df = pd.DataFrame(employer_data)
+
+    # Define the desired column order
+    desired_order = ['Employer_ID', 'Name', 'Industry', 'Contact_Info', 'Profile_Status']
+
+    # Check if all desired columns exist in the data
+    missing_columns = [col for col in desired_order if col not in employer_df.columns]
+    if missing_columns:
+        st.error(f"The following columns are missing in the data: {missing_columns}")
+    else:
+        # Reorder the columns
+        employer_df = employer_df[desired_order]
+
+        # Display the data
+        st.dataframe(employer_df)
+
+        # Metrics: Total Employers
+        st.write("---")
+        total_employers = len(employer_df)
+        st.metric("Total Employers", total_employers)
+
+         # Metric: Most Frequent Industry
+        most_frequent_industry = employer_df['Industry'].mode()[0]  # Get the most common industry
+        industry_count = employer_df['Industry'].value_counts().iloc[0]  # Count occurrences of the most common industry
+        st.metric("Most Frequent Industry", most_frequent_industry, f"{industry_count} Employers")
+
+        # Optional: Add filters or sorting
+        st.write("---")
+        st.subheader("Filter Employers")
+        industries = employer_df['Industry'].dropna().unique()
+        selected_industry = st.selectbox("Select Industry", options=["All"] + list(industries))
+
+        if selected_industry != "All":
+            filtered_df = employer_df[employer_df['Industry'] == selected_industry]
+        else:
+            filtered_df = employer_df
+
+        st.dataframe(filtered_df)
+
 except requests.exceptions.RequestException as e:
-    st.error(f"Error fetching employers: {e}")
+    st.error(f"Error fetching employer data: {e}")
 
 # Add Employer
+st.write("---")
 st.subheader("Add Employer")
 name = st.text_input("Name")
 contact_info = st.text_input("Contact Info")

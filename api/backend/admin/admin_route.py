@@ -11,6 +11,7 @@ admin = Blueprint('admin', __name__)
 def get_employers():
     query = '''
         SELECT * FROM Employer
+        ORDER BY Employer_ID
 '''
     
     # get a cursor object from the database
