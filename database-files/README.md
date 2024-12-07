@@ -18,3 +18,14 @@ Data includes sample students, employers, feedback records, and referral entries
 3. database.db.
 SQLite database file containing the complete database contents currently being used by the application.
 Initialized via 00_coopApp.sql and 01_coopApp_data.sql.
+
+* Usage Instruction
+- If you need to restart the database, delete or backup the existing database.db file:
+'''
+rm database-files/database.db
+'''
+
+- Backing up the database: If you have important data, back up the existing database.db file before purging or reinitializing:
+'''
+cp database-files/database.db database-files/backup_database.db
+'''
