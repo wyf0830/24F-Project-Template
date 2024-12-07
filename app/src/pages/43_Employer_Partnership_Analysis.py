@@ -122,7 +122,7 @@ try:
         st.subheader("Major Feedback Scores")
         if 'Student_Major' in employer_df.columns and 'Feedback_Score' in employer_df.columns:
             major_scores = employer_df.groupby('Student_Major')['Feedback_Score'].mean().sort_values(ascending=False)
-            st.bar_chart(major_scores)
+            st.bar_chart(major_scores, horizontal=True)
 
             # Metric for Major with the Highest Feedback Score
             highest_major = major_scores.idxmax()  # Major with the highest score
@@ -134,7 +134,7 @@ try:
         st.subheader("Industry Feedback Scores")
         if 'Industry' in employer_df.columns and 'Feedback_Score' in employer_df.columns:
             industry_scores = employer_df.groupby('Industry')['Feedback_Score'].mean().sort_values(ascending=False)
-            st.bar_chart(industry_scores)
+            st.bar_chart(industry_scores, horizontal=True)
 
             # Metric for Industry with the Highest Feedback Score
             highest_industry = industry_scores.idxmax()  # Industry with the highest score

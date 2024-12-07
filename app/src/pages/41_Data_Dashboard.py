@@ -80,7 +80,7 @@ try:
         ]
     })
 
-    st.bar_chart(metrics_data.set_index('Metric'))
+    st.bar_chart(metrics_data.set_index('Metric'), horizontal=True)
 
 except requests.exceptions.RequestException as e:
     st.error(f"Error fetching data: {e}")
