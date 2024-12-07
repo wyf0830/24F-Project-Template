@@ -39,7 +39,7 @@ with col1:
 
 with col2:
     if st.button('Data Reporting', type='primary', use_container_width=True):
-        st.switch_page('pages/33_Data_Reporting')
+        st.switch_page('pages/33_Data_Reporting.py')
 
 with col3:
     if st.button('Feedback Page', type='primary', use_container_width=True):
