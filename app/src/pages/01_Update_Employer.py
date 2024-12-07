@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 from modules.nav import SideBarLinks
 
-# Initialize the navigation links
+
 SideBarLinks()
 
 # Define API URL for employers data
@@ -37,17 +37,17 @@ try:
         # Display the data
         st.dataframe(employer_df)
 
-        # Metrics: Total Employers
+        # Total Employers
         st.write("---")
         total_employers = len(employer_df)
         st.metric("Total Employers", total_employers)
 
-         # Metric: Most Frequent Industry
+         # Most Frequent Industry
         most_frequent_industry = employer_df['Industry'].mode()[0]  # Get the most common industry
         industry_count = employer_df['Industry'].value_counts().iloc[0]  # Count occurrences of the most common industry
         st.metric("Most Frequent Industry", most_frequent_industry, f"{industry_count} Employers")  
 
-        # Optional: Add filters or sorting
+        # Add filters or sorting
         st.write("---")
         st.subheader("Filter Employers")
         industries = employer_df['Industry'].dropna().unique()
