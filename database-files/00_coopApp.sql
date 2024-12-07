@@ -19,6 +19,9 @@ CREATE TABLE IF NOT EXISTS `Job_Position` (
   `Title` VARCHAR(100) NOT NULL,
   `Requirement` TEXT NOT NULL,
   `Description` TEXT,
+  `Location` VARCHAR(25),
+  `Type` VARCHAR(15),
+  `Salary` INT,
    CONSTRAINT `PK_Job_Position` PRIMARY KEY (`Position_ID`),
    CONSTRAINT `FK_Job_Position` FOREIGN KEY (`Employer_ID`)
        REFERENCES Employer (`Employer_ID`)
