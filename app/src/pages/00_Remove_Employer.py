@@ -3,7 +3,7 @@ import requests
 import pandas as pd
 from modules.nav import SideBarLinks
 
-# Initialize the navigation links
+
 SideBarLinks()
 
 # API URL for employers
@@ -15,7 +15,7 @@ st.title("Manage Employers")
 st.subheader("Employer List")
 
 try:
-    # Fetch data from the API
+    # Getting data from the API
     response = requests.get(API_URL)
     response.raise_for_status()  # Raise an error for bad responses
     employer_data = response.json()
@@ -36,7 +36,7 @@ try:
 except requests.exceptions.RequestException as e:
     st.error(f"Error fetching employer data: {e}")
 
-# Section: Update Employer
+# Update Employer
 st.write("---")
 st.subheader("Update Employer")
 
@@ -72,7 +72,7 @@ with st.form("update_employer_form"):
             except Exception as e:
                 st.error(f"Error: {e}")
 
-# Section: Delete Employer
+# Delete Employer
 st.write("---")
 st.subheader("Delete Employer")
 
