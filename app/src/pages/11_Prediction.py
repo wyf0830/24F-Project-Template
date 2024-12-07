@@ -27,7 +27,7 @@ logger.info(f'Expected Salary = {expected_salary}')
 # button to calculate satisfaction prediction
 if st.button('Predict Satisfaction', type='primary', use_container_width=True):
     try:
-        results = requests.get(f'http://api:4000/job/prediction/{experience_years}/{expected_salary}').json()
+        results = requests.get(f'http://api:4000/s/job_prediction/{experience_years}/{expected_salary}').json()
         st.subheader("Prediction Results")
         st.json(results)
     except Exception as e:
