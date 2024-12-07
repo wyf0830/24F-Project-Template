@@ -16,17 +16,17 @@ st.write('### What would you like to do today?')
 
 
 #TODO change all the buttons below, match the persona
-if st.button('Predict Value Based on Regression Model', 
+if st.button('Satisfiction Prediction', 
              type='primary',
              use_container_width=True):
   st.switch_page('pages/11_Prediction.py')
 
-if st.button('View the Simple API Demo', 
+if st.button('Position Filter', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/12_API_Test.py')
+  st.switch_page('pages/12_Job_Filter.py')
 
-if st.button("View Classification Demo",
+if st.button("Job Classification Demo",
              type='primary',
              use_container_width=True):
   st.switch_page('pages/13_Classification.py')
