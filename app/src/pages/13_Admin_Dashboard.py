@@ -50,7 +50,7 @@ st.subheader("Add New Admin Data")
 # Form for adding new data
 with st.form("add_admin_data"):
     # Optional Admin_ID field
-    admin_id = st.number_input("Admin ID (Optional)", min_value=1, step=1, help="Provide the Admin ID if required")
+    admin_id = st.number_input("Admin ID", min_value=1, step=1, help="Provide the Admin ID if required")
 
     st.write("### Add System Log")
     event_type = st.text_input("Event Type", help="Type of event for the system log (e.g., System Update)")
