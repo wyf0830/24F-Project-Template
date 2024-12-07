@@ -22,9 +22,7 @@ try:
     performance_df = pd.DataFrame(performance_data)
 
     # define desired column order
-    desired_order = ['Director_ID', 'Director_Name', 'Director_Contact', 
-                     'Report_ID', 'Performance_Summary', 
-                     'Performance_Report_Date']
+    desired_order = ['Report_ID', 'Performance_Summary', 'Performance_Report_Date']
 
     # check if all desired columns are present
     missing_columns = [col for col in desired_order if col not in performance_df.columns]

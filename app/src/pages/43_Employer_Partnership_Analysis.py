@@ -57,9 +57,9 @@ try:
 
     # define column order for display
     desired_columns = [
-        "Director_ID", "Director_Name", "Director_Contact", 
-        "Student_ID", "Student_Name", "Student_Major", "Student_Program", 
-        "Job_Title", "Industry", "Employer_Feedback", "Employer_Name", "Employer_Contact" 
+        "Employer_Name", "Employer_Contact", "Job_Title", "Industry", 
+        "Employer_Feedback", "Student_ID", "Student_Name", "Student_Major", 
+        "Student_Program"
     ]
 
     # check if desired columns exist in the data
