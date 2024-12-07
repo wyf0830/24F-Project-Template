@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `Coop_Application` (
    CONSTRAINT `FK_Coop_Application_1` FOREIGN KEY (`Student_ID`)
        REFERENCES Student (`Student_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT,
+       ON DELETE CASCADE,
    CONSTRAINT `FK_Coop_Application_2` FOREIGN KEY (`Position_ID`)
        REFERENCES Job_Position (`Position_ID`)
        ON UPDATE CASCADE
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `Career_Advisor` (
    CONSTRAINT `FK_Career_Advisor` FOREIGN KEY (`Student_ID`)
        REFERENCES Student (`Student_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT
+       ON DELETE CASCADE
 );
 
 
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `Recommendation` (
    CONSTRAINT `FK_Recommendation_1` FOREIGN KEY (`Student_ID`)
        REFERENCES Student (`Student_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT,
+       ON DELETE CASCADE,
    CONSTRAINT `FK_Recommendation_2` FOREIGN KEY (`Position_ID`)
        REFERENCES Job_Position (`Position_ID`)
        ON UPDATE CASCADE
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `Recommendation` (
    CONSTRAINT `FK_Recommendation_3` FOREIGN KEY (`Advisor_ID`)
        REFERENCES Career_Advisor (`Advisor_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT
+       ON DELETE CASCADE
 );
 
 
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `Backup_Schedule` (
    CONSTRAINT `FK_Backup_Schedule` FOREIGN KEY (`Admin_ID`)
        REFERENCES Admin (`Admin_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT
+       ON DELETE CASCADE
 );
 
 
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `System_Logs` (
    CONSTRAINT `FK_System_Logs` FOREIGN KEY (`Admin_ID`)
        REFERENCES Admin (`Admin_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT
+       ON DELETE CASCADE
 );
 
 
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `Reports` (
    CONSTRAINT `FK_Reports` FOREIGN KEY (`Admin_ID`)
        REFERENCES Admin (`Admin_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT
+       ON DELETE CASCADE
 );
 
 
@@ -164,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `Program_Metrics` (
    CONSTRAINT `FK_Program_Metrics` FOREIGN KEY (`Director_ID`)
        REFERENCES Program_Director (`Director_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT
+       ON DELETE CASCADE
 );
 
 
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `Performance_Report` (
    CONSTRAINT `FK_Performance_Report` FOREIGN KEY (`Director_ID`)
        REFERENCES Program_Director (`Director_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT
+       ON DELETE CASCADE
 );
 
 
@@ -189,7 +189,7 @@ CREATE TABLE IF NOT EXISTS `Resource_Allocation` (
    CONSTRAINT `FK_Resource_Allocation` FOREIGN KEY (`Director_ID`)
        REFERENCES Program_Director (`Director_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT
+       ON DELETE CASCADE
 );
 
 
@@ -203,11 +203,11 @@ CREATE TABLE IF NOT EXISTS `Employer_Feedback` (
    CONSTRAINT `FK_Employer_Feedback1` FOREIGN KEY (`Metrics_ID`)
        REFERENCES Program_Metrics (`Metrics_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT,
+       ON DELETE CASCADE,
    CONSTRAINT `FK_Employer_Feedback2` FOREIGN KEY (`Student_ID`)
        REFERENCES Student (`Student_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT,
+       ON DELETE CASCADE,
    CONSTRAINT `FK_Employer_Feedback3` FOREIGN KEY (`Position_ID`)
        REFERENCES Job_Position (`Position_ID`)
        ON UPDATE CASCADE

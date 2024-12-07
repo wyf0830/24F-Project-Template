@@ -33,7 +33,7 @@ def get_students():
     return response
 
 
-@students.route('/student', methods=['POST'])
+@students.route('/students', methods=['POST'])
 def add_new_student():
         # Get JSON data from the request
         student_data = request.json
@@ -47,23 +47,82 @@ def add_new_student():
         profile_status = student_data.get('Profile_Status', 1)  # Default to active
     
         # Construct the INSERT query
-        query = f'''
+        query = '''
             INSERT INTO Student (Name, Major, Interests, Program, Profile_Status)
-            VALUES ('{name}', '{major}', '{interests}', '{program}', {profile_status})
+            VALUES (%s, %s, %s, %s, %s)
         '''
-        
-        current_app.logger.info(f"Executing query: {query}")
-    
-        # Execute the INSERT query
+        data = (name, major, interests, program, profile_status)
+
+        # Execute the query
         cursor = db.get_db().cursor()
-        cursor.execute(query)
+        cursor.execute(query, data)
         db.get_db().commit()
-        
-        # Get the ID of the newly created student
-        new_student_id = cursor.lastrowid
+            
+        # Get the ID of the newly created employer
+        new_id = cursor.lastrowid
+        current_app.logger.info(f'New student added with ID: {new_id}')
+            
+        # Prepare the response
+        response = {
+            'message': 'Student added successfully',
+            'student_id': new_id
+        }
+        return make_response(jsonify(response), 201)
+
+# PUT Route: Update an Existing Student
+@students.route('/students/<int:student_id>', methods=['PUT'])
+def update_student(student_id):
+    try:
+        the_data = request.json
+        name = the_data.get('name')
+        major = the_data.get('major')
+        interests = the_data.get('interests')
+        program = the_data.get('program')
+        profile_status = the_data.get('profile_status', None)
+
+        # Construct the UPDATE query
+        query = '''
+            UPDATE Student
+            SET Name = %s, Major = %s, Interests = %s, Program = %s, Profile_Status = %s
+            WHERE Student_ID = %s
+        '''
+        data = (name, major, interests, program, profile_status, student_id)
+        cursor = db.get_db().cursor()
+        rows_affected = cursor.execute(query, data)
+        db.get_db().commit()
+
+        if rows_affected == 0:
+            return make_response(jsonify({'error': 'Student not found'}), 404)
+
+        response = {'message': 'Student updated successfully'}
+        return make_response(jsonify(response), 200)
+
+    except Exception as e:
+        current_app.logger.error(f"Error updating student: {e}")
+        return make_response(jsonify({'error': 'Internal Server Error'}), 500)
     
-        response = make_response(jsonify({'message': 'Successfully added student.', 'Student_ID': new_student_id}), 201)
-        return response
+# DELETE Route: Delete an Student
+@students.route('/students/<int:student_id>', methods=['DELETE'])
+def delete_student(student_id):
+    try:
+        # SQL query to delete an student by Student_ID
+        query = '''
+            DELETE FROM Student
+            WHERE Student_ID = %s
+        '''
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (student_id,))
+        db.get_db().commit()
+
+        # Check if the deletion affected any rows
+        if cursor.rowcount == 0:
+            return make_response(jsonify({'error': 'Student not found'}), 404)
+
+        return make_response(jsonify({'message': 'Student deleted successfully!'}), 200)
+
+    except Exception as e:
+        # Handle unexpected errors
+        return make_response(jsonify({'error': str(e)}), 500)
 
 
 # Endpoint to fetch job listings

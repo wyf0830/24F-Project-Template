@@ -16,6 +16,11 @@ st.write('### What would you like to do today?')
 
 
 #TODO change all the buttons below, match the persona
+if st.button('Profile Information', 
+             type='primary',
+             use_container_width=True):
+  st.switch_page('pages/14_Profile_Information.py')
+
 if st.button('Satisfiction Prediction', 
              type='primary',
              use_container_width=True):
