@@ -62,8 +62,11 @@ selected_user = st.selectbox("Log in as:", list(user_roles_with_icons.keys()))
 if st.button("Log In"):
     st.session_state['authenticated'] = True
     st.session_state['role'] = selected_user.split(",")[1].strip().lower()
-    st.session_state['first_name'] = selected_user.split(",")[0].split(" ")[1]  # Extract the name
+    st.session_state['first_name'] = selected_user.split(",")[0].split(" ")[1] 
     logger.info(f"Logging in as {selected_user}")
     st.switch_page(user_roles_with_icons[selected_user])
 
-
+# Add a separate Chatbot button for direct access
+st.write("### Or directly access the Chatbot:")
+if st.button("💬 Go to Chatbot"):
+    st.switch_page("pages/20_Simple_Chat_Bot.py")
