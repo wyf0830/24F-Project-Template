@@ -42,5 +42,5 @@ with col2:
         st.switch_page('pages/33_Data_Reporting')
 
 with col3:
-    if st.button('Schedule Management', type='primary', use_container_width=True):
-        st.switch_page('pages/34_Schedule_Management')
+    if st.button('Feedback Page', type='primary', use_container_width=True):
+        st.switch_page('pages/34_Feedback.py')
