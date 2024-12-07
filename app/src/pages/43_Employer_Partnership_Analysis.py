@@ -117,5 +117,30 @@ try:
         st.write("- The final score is normalized by dividing the total score by the number of words in the feedback.")
         st.write("This scoring system helps evaluate the quality and positivity of feedback in a visible and easy way.")
 
+        # Visualization: Major with the Highest Feedback Score
+        st.write("---")
+        st.subheader("Major Feedback Scores")
+        if 'Student_Major' in employer_df.columns and 'Feedback_Score' in employer_df.columns:
+            major_scores = employer_df.groupby('Student_Major')['Feedback_Score'].mean().sort_values(ascending=False)
+            st.bar_chart(major_scores)
+
+            # Metric for Major with the Highest Feedback Score
+            highest_major = major_scores.idxmax()  # Major with the highest score
+            highest_major_score = major_scores.max()  # Highest score
+            st.metric(f"Top Major by Feedback Score", highest_major, f"{highest_major_score:.2f}")
+
+        # Visualization: Industry with the Highest Feedback Score
+        st.write("---")
+        st.subheader("Industry Feedback Scores")
+        if 'Industry' in employer_df.columns and 'Feedback_Score' in employer_df.columns:
+            industry_scores = employer_df.groupby('Industry')['Feedback_Score'].mean().sort_values(ascending=False)
+            st.bar_chart(industry_scores)
+
+            # Metric for Industry with the Highest Feedback Score
+            highest_industry = industry_scores.idxmax()  # Industry with the highest score
+            highest_industry_score = industry_scores.max()  # Highest score
+            st.metric(f"Top Industry by Feedback Score", highest_industry, f"{highest_industry_score:.2f}")
+
+
 except requests.exceptions.RequestException as e:
     st.error(f"Error fetching employer data: {e}")
