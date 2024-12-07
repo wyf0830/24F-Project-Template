@@ -19,7 +19,7 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     if st.button('View Student Profiles', type='primary', use_container_width=True):
-        st.switch_page('pages/35_View_Student_Profiles')
+        st.switch_page('pages/35_View_Student_Profiles.py')
 
 with col2:
     if st.button('Personalized Recommendations', type='primary', use_container_width=True):
