@@ -45,7 +45,7 @@ try:
          # Metric: Most Frequent Industry
         most_frequent_industry = employer_df['Industry'].mode()[0]  # Get the most common industry
         industry_count = employer_df['Industry'].value_counts().iloc[0]  # Count occurrences of the most common industry
-        st.metric("Most Frequent Industry", most_frequent_industry, f"{industry_count} Employers")
+        st.metric("Most Frequent Industry", most_frequent_industry, f"{industry_count} Employers")  
 
         # Optional: Add filters or sorting
         st.write("---")

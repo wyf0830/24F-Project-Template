@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `Job_Position` (
    CONSTRAINT `FK_Job_Position` FOREIGN KEY (`Employer_ID`)
        REFERENCES Employer (`Employer_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT
+       ON DELETE CASCADE
 );
 
 
@@ -53,11 +53,11 @@ CREATE TABLE IF NOT EXISTS `Coop_Application` (
    CONSTRAINT `FK_Coop_Application_2` FOREIGN KEY (`Position_ID`)
        REFERENCES Job_Position (`Position_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT,
+       ON DELETE CASCADE,
    CONSTRAINT `FK_Coop_Application_3` FOREIGN KEY (`Employer_ID`)
        REFERENCES Employer (`Employer_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT
+       ON DELETE CASCADE
 );
 
 
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `Recommendation` (
    CONSTRAINT `FK_Recommendation_2` FOREIGN KEY (`Position_ID`)
        REFERENCES Job_Position (`Position_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT,
+       ON DELETE CASCADE,
    CONSTRAINT `FK_Recommendation_3` FOREIGN KEY (`Advisor_ID`)
        REFERENCES Career_Advisor (`Advisor_ID`)
        ON UPDATE CASCADE
@@ -208,5 +208,5 @@ CREATE TABLE IF NOT EXISTS `Employer_Feedback` (
    CONSTRAINT `FK_Employer_Feedback3` FOREIGN KEY (`Position_ID`)
        REFERENCES Job_Position (`Position_ID`)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT
+       ON DELETE CASCADE
 );

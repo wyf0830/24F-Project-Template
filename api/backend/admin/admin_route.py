@@ -75,3 +75,61 @@ def add_new_employer():
     except Exception as e:
         current_app.logger.error(f"Error adding new employer: {e}")
         return make_response(jsonify({'error': 'Internal Server Error'}), 500)
+    
+# PUT Route: Update an Existing Employer
+@admin.route('/employers/<int:employer_id>', methods=['PUT'])
+def update_employer(employer_id):
+    try:
+        the_data = request.json
+        name = the_data.get('name')
+        contact_info = the_data.get('contact_info')
+        industry = the_data.get('industry', None)
+        profile_status = the_data.get('profile_status', None)
+
+        if not name or not contact_info:
+            return make_response(jsonify({'error': 'Missing required fields: name and contact_info.'}), 400)
+
+        # Construct the UPDATE query
+        query = '''
+            UPDATE Employer
+            SET Name = %s, Contact_Info = %s, Industry = %s, Profile_Status = %s
+            WHERE Employer_ID = %s
+        '''
+        data = (name, contact_info, industry, profile_status, employer_id)
+        cursor = db.get_db().cursor()
+        rows_affected = cursor.execute(query, data)
+        db.get_db().commit()
+
+        if rows_affected == 0:
+            return make_response(jsonify({'error': 'Employer not found'}), 404)
+
+        response = {'message': 'Employer updated successfully'}
+        return make_response(jsonify(response), 200)
+
+    except Exception as e:
+        current_app.logger.error(f"Error updating employer: {e}")
+        return make_response(jsonify({'error': 'Internal Server Error'}), 500)
+
+# DELETE Route: Delete an Employer
+@admin.route('/employers/<int:employer_id>', methods=['DELETE'])
+def delete_employer(employer_id):
+    try:
+        # SQL query to delete an employer by Employer_ID
+        query = '''
+            DELETE FROM Employer
+            WHERE Employer_ID = %s
+        '''
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (employer_id,))
+        db.get_db().commit()
+
+        # Check if the deletion affected any rows
+        if cursor.rowcount == 0:
+            return make_response(jsonify({'error': 'Employer not found'}), 404)
+
+        return make_response(jsonify({'message': 'Employer deleted successfully!'}), 200)
+
+    except Exception as e:
+        # Handle unexpected errors
+        return make_response(jsonify({'error': str(e)}), 500)
+
