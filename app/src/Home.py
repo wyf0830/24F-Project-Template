@@ -44,7 +44,7 @@ st.markdown(
 st.write("### Select a user to log in:")
 user_roles_with_icons = {
     "👔 John, a Political Strategy Advisor": ("pol_strat_advisor", "pages/00_Pol_Strat_Home.py"),
-    "💻 David Chen, System Administrator": ("administrator", "pages/10_Admin_Home.py"),
+    "💻 David Chen, System Administrator": ("administrator", "pages/00_Admin_Home.py"),
     "🎓 Steven Johnson, senior student at NEU": ("student", "pages/10_NEU_student_Home.py"),
     "📚 Michael Lee, Khoury Advisor": ("khoury_advisor", "pages/30_Coop_Advisor_Home.py"),
     "👨‍🏫 Hiroshi Saito, Co-op Program Director": ("program_director", "pages/40_Coop_Pro_Dir_Home.py"),

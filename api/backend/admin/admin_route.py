@@ -133,3 +133,94 @@ def delete_employer(employer_id):
         # Handle unexpected errors
         return make_response(jsonify({'error': str(e)}), 500)
 
+@admin.route('/admin_data', methods=['GET'])
+def get_admin_data():
+    query = '''
+    SELECT sl.Log_ID,
+        sl.Event_Type,
+        sl.Message AS Log_Message,
+        sl.Time_Stamp AS Log_Time_Stamp,
+        r.Report_ID,
+        r.Generated_Date AS Report_Date,
+        r.Content AS Report_Content,
+        r.Report_Type,
+        bs.Schedule_ID,
+        bs.Frequency AS Backup_Frequency,
+        bs.Last_Backup_Date
+    FROM Admin a
+        LEFT JOIN System_Logs sl ON a.Admin_ID = sl.Admin_ID
+        LEFT JOIN Reports r ON a.Admin_ID = r.Admin_ID
+        LEFT JOIN Backup_Schedule bs ON a.Admin_ID = bs.Admin_ID
+    ORDER BY 
+        sl.Time_Stamp DESC, r.Generated_Date DESC, bs.Last_Backup_Date DESC
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+    theData = cursor.fetchall()
+
+    response = make_response(jsonify(theData))
+    response.status_code = 200
+    return response
+
+@admin.route('/admin_data', methods=['POST'])
+def add_admin_data():
+    try:
+        # Extract the JSON payload from the request
+        data = request.get_json()
+
+        # Extract the required fields for each table
+        admin_id = data.get('Admin_ID')
+        event_type = data.get('Event_Type')
+        log_message = data.get('Log_Message')
+        report_content = data.get('Report_Content')
+        report_type = data.get('Report_Type')
+        backup_frequency = data.get('Backup_Frequency')
+
+        # Validate that at least one field is provided
+        if not (event_type or log_message or report_content or report_type or backup_frequency):
+            return make_response(
+                jsonify({"error": "At least one field must be provided to add data"}), 400
+            )
+
+        # Get a database connection
+        conn = db.get_db()
+        cursor = conn.cursor()
+
+        # Step 1: Insert data into System_Logs table (if provided)
+        if event_type and log_message:
+            log_query = '''
+                INSERT INTO System_Logs (Admin_ID, Event_Type, Message)
+                VALUES (%s, %s, %s)
+            '''
+            cursor.execute(log_query, (admin_id, event_type, log_message))
+
+        # Step 2: Insert data into Reports table (if provided)
+        if report_content and report_type:
+            report_query = '''
+                INSERT INTO Reports (Admin_ID, Content, Report_Type)
+                VALUES (%s, %s, %s)
+            '''
+            cursor.execute(report_query, (admin_id, report_content, report_type))
+
+        # Step 3: Insert data into Backup_Schedule table (if provided)
+        if backup_frequency:
+            backup_query = '''
+                INSERT INTO Backup_Schedule (Admin_ID, Frequency)
+                VALUES (%s, %s)
+            '''
+            cursor.execute(backup_query, (admin_id, backup_frequency))
+
+        # Commit the transaction
+        conn.commit()
+
+        # Return success response
+        return make_response(
+            jsonify({"message": "Admin-related data added successfully"}), 201
+        )
+
+    except Exception as e:
+        # Rollback the transaction if an error occurs
+        conn.rollback()
+        return make_response(jsonify({"error": str(e)}), 500)
+    
