@@ -8,6 +8,8 @@ from backend.admin.admin_route import admin
 from backend.customers.customer_routes import customers
 from backend.products.products_routes import products
 from backend.simple.simple_routes import simple_routes
+from backend.employer.employer_routes import employers 
+
 import os
 from dotenv import load_dotenv
 
@@ -49,6 +51,20 @@ def create_app():
     app.register_blueprint(director,    url_prefix='/d')
     app.register_blueprint(students,    url_prefix='/s')
 
-    # Don't forget to return the app object
+    # Register existing blueprints for employer
+    app.register_blueprint(advisor)
+    app.register_blueprint(students)
+    app.register_blueprint(director)
+    app.register_blueprint(admin)
+    app.register_blueprint(customers)
+    app.register_blueprint(products)
+    app.register_blueprint(simple_routes)
+
+    # Register new Employer blueprint
+    app.register_blueprint(employers)
+
     return app
+
+
+
 
