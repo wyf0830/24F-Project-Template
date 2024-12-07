@@ -24,11 +24,11 @@ col1, col2, col3 = st.columns(3)
 
 with col1:
     if st.button('Update Employer Information', type='primary', use_container_width=True):
-        st.switch_page('pages/00_Update_Employer.py')
+        st.switch_page('pages/01_Update_Employer.py')
 
 with col2:
     if st.button('Delete Employer Information', type='primary', use_container_width=True):
-        st.switch_page('pages/00_Remove_Employer.py')
+        st.switch_page('pages/02_Remove_Employer.py')
 
 with col3:
     if st.button('Data Cleanup', type='primary', use_container_width=True):
