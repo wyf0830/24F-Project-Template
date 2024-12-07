@@ -9,7 +9,7 @@ SideBarLinks()
 # Define API URL for employers data
 API_URL = 'http://api:4000/a/employers'
 
-st.title("Update Employer Information")
+st.title("View Employer Information")
 
 # Fetch and Display Employers Data
 st.subheader("Employer List")

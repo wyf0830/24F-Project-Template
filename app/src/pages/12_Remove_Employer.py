@@ -9,7 +9,7 @@ SideBarLinks()
 # API URL for employers
 API_URL = 'http://api:4000/a/employers'
 
-st.title("Manage Employers")
+st.title("Manage Employer Information")
 
 # Fetch and Display Employers
 st.subheader("Employer List")

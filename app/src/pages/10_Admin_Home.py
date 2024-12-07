@@ -20,11 +20,11 @@ st.write('')
 st.write('### What would you like to do today?')
 
 # Navigation Buttons
-if st.button('Update Employer Information', type='primary', use_container_width=True):
-    st.switch_page('pages/01_Update_Employer.py')
+if st.button('View Employer Information', type='primary', use_container_width=True):
+    st.switch_page('pages/11_Update_Employer.py')
 
-if st.button('Delete Employer Information', type='primary', use_container_width=True):
-    st.switch_page('pages/02_Remove_Employer.py')
+if st.button('Manage Employer Information', type='primary', use_container_width=True):
+    st.switch_page('pages/12_Remove_Employer.py')
 
 if st.button('Admin Dashboard', type='primary', use_container_width=True):
-    st.switch_page('pages/03_Admin_Dashboard.py')
+    st.switch_page('pages/13_Admin_Dashboard.py')
