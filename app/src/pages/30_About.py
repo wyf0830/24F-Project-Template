@@ -8,14 +8,11 @@ st.write("# About this App")
 
 st.markdown (
     """
-    Introducing Expeduco, a cutting-edge, data-driven platform designed
-      to revolutionize the co-op and internship experience at Northeastern University.
-        Expeduco streamlines the connection between students and employers by leveraging
-          advanced data analytics to provide personalized co-op recommendations, real-time 
-          application tracking, and insightful program performance metrics. In an era where
-            manual updates, system inefficiencies, and generic job listings hinder progress, 
-            Expeduco emerges as a solution that not only saves time but also enhances the 
-            quality of matches between students and employers.
+    Expeduco is a state-of-the-art, data-driven platform meticulously designed to transform the cooperative education (co-op) and internship experience at Northeastern University. With its innovative approach, Expeduco serves as a bridge between students and employers, redefining the way connections are established and nurtured.
+    
+    Leveraging the power of advanced data analytics, Expeduco offers a comprehensive suite of features, including personalized co-op recommendations tailored to individual student preferences, real-time tracking of applications to ensure transparency and efficiency, and detailed program performance metrics to provide actionable insights for continuous improvement.
+    
+    In today's fast-paced world, where outdated systems, manual updates, and generic job listings often create bottlenecks and hinder meaningful progress, Expeduco rises as a beacon of innovation. By automating processes, optimizing matches between students and employers, and focusing on data-backed decision-making, the platform not only saves significant time for all stakeholders but also elevates the overall quality of the co-op and internship experience. Expeduco empowers students to unlock their potential and helps employers discover the right talent efficiently, fostering a mutually beneficial ecosystem that drives success for all.
     """
         )
 
