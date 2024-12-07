@@ -5,8 +5,6 @@ from backend.advisor.advisor_routes import advisor
 from backend.students.students_route import students
 from backend.director.director_route import director
 from backend.admin.admin_route import admin
-from backend.customers.customer_routes import customers
-from backend.products.products_routes import products
 from backend.simple.simple_routes import simple_routes
 import os
 from dotenv import load_dotenv
