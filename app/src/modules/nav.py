@@ -61,6 +61,23 @@ def ManageEmpNav():
 def AdminDashboardNav():
     st.sidebar.page_link("pages/13_Admin_Dashboard.py", label="Admin Dashboard", icon="📊")
 
+#### ------------------------ Student Role ------------------------
+def StudentPafeNav():
+    st.sidebar.page_link("pages/10_NEU_student_Home.py", label="Student Home Page", icon="🧑‍🎓")
+
+def ProfileInfoNav():
+    st.sidebar.page_link("pages/14_Profile_Information.py", label="Profile Information", icon="🖥️")
+
+def SatisfictionPreNav():
+    st.sidebar.page_link("pages/11_Prediction.py", label="Satisfiction Information", icon="🩵")
+
+def PositionFilterNav():
+    st.sidebar.page_link("pages/12_Job_Filter.py", label="Position Filter", icon="💼")
+
+def ClassificationNav():
+    st.sidebar.page_link("pages/13_Classification.py", label="Position Classification", icon="📉")
+
+
 ### ------------------------ Program Director Role ------------------------
 def DirectorHomeNav():
     st.sidebar.page_link("pages/40_Coop_Pro_Dir_Home.py", label="Program Director Home", icon="👤")
@@ -113,8 +130,16 @@ def SideBarLinks(show_home=False):
             ViewEmpNav()
             ManageEmpNav()
             AdminDashboardNav()
+
+        # If the user role is student, show the Api Testing page
+        if st.session_state['role'] == 'students':
+            StudentPafeNav()
+            ProfileInfoNav()
+            SatisfictionPreNav()
+            PositionFilterNav()
+            ClassificationNav()
         
-        # If the user role is usaid worker, show the Api Testing page
+        # If the user role is program director, show the Api Testing page
         if st.session_state['role'] == 'program_director':
             DirectorHomeNav()
             DataDashboardNav()
